@@ -1,6 +1,6 @@
 # Colorful Chests
 
-Stardew Valley mod which adds an HSL Color Picker to the chest menu.
+Stardew Valley mod which swaps out the chest color picker palette.
 
 ## Contents
 
