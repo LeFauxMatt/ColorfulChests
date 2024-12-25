@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\FauxCore\FauxCommon\Common.targets" />
+  <Import Project="..\FauxCore\FauxCommon\FauxCommon.projitems" Label="Shared" />
+
+  <PropertyGroup>
+    <Name>Colorful Chests</Name>
+    <Description>Adds an HSL color picker to the chest menu.</Description>
+    <Version>1.0.0-beta.1</Version>
+	  <EnableHarmony>true</EnableHarmony>
+    <RootNamespace>LeFauxMods.ColorfulChests</RootNamespace>
+    <UniqueId>furyx639.ColorfulChests</UniqueId>
+    <UpdateKeys>GitHub:LeFauxMatt/ColorfulChests</UpdateKeys>
+    <RepositoryUrl>https://github.com/LeFauxMatt/ColorfulChests</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Version="1.14.1" required="false" />
+  </ItemGroup>
+
+</Project>

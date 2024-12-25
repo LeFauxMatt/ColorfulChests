@@ -1,0 +1,9 @@
+{
+  "config-option.color-palette.name": "Color Palette",
+  "config-option.color-palette.description": "The default color palette for the color picker.",
+  "config-option.hue.value": "Hue: {{value}}",
+  "config-option.saturation.value": "Saturation: {{value}}",
+  "config-option.lightness.value": "Lightness: {{value}}",
+  "config-option.copy.tooltip": "Copy",
+  "config-option.paste.tooltip": "Paste"
+}
