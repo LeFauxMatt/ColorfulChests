@@ -270,7 +270,7 @@ internal sealed class ColorPicker(IModHelper helper, ModConfig config) : Complex
             get => this.color;
             set
             {
-                if (this.color.Equals(value))
+                if (this.color.Equals(value) && this.Hue.Count > 0)
                 {
                     return;
                 }

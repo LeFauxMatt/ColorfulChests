@@ -1,4 +1,4 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using HarmonyLib;
 using LeFauxMods.Common.Integrations.ColorfulChests;
 using LeFauxMods.Common.Integrations.GenericModConfigMenu;
@@ -64,9 +64,7 @@ public class ModEntry : Mod
             .MatchEndForward(new CodeMatch(CodeInstruction.LoadField(typeof(Chest), nameof(Chest.playerChoiceColor))))
             .Repeat(matcher =>
             {
-                matcher.MatchEndForward(
-                        new CodeMatch(CodeInstruction.LoadField(typeof(Chest), nameof(Chest.playerChoiceColor))))
-                    .Advance(2)
+                matcher.Advance(2)
                     .InsertAndAdvance(
                         new CodeInstruction(OpCodes.Ldarg_0),
                         CodeInstruction.Call(typeof(ModEntry), nameof(GetNewColor)));
