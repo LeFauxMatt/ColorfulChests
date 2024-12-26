@@ -1,9 +1,9 @@
 {
-  "config-option.color-palette.name": "Color Palette",
-  "config-option.color-palette.description": "The default color palette for the color picker.",
-  "config-option.hue.value": "Hue: {{value}}",
-  "config-option.saturation.value": "Saturation: {{value}}",
-  "config-option.lightness.value": "Lightness: {{value}}",
-  "config-option.copy.tooltip": "Copy",
-  "config-option.paste.tooltip": "Paste"
+  "config-option.color-palette.name": "Palette de couleur",
+  "config-option.color-palette.description": "La couleur de palette par défaut pour le sélectionneur de couleur.",
+  "config-option.hue.value": "Teinte : {{value}}",
+  "config-option.saturation.value": "Saturation : {{value}}",
+  "config-option.lightness.value": "Luminosité : {{value}}",
+  "config-option.copy.tooltip": "Copier",
+  "config-option.paste.tooltip":  "Coller"
 }
