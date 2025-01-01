@@ -6,11 +6,11 @@
 	<PropertyGroup>
 		<Name>Colorful Chests</Name>
 		<Description>Swaps out the chest color picker palette.</Description>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<EnableHarmony>true</EnableHarmony>
 		<RootNamespace>LeFauxMods.ColorfulChests</RootNamespace>
 		<UniqueId>furyx639.ColorfulChests</UniqueId>
-		<UpdateKeys>Nexus:30322,GitHub:LeFauxMatt/ColorfulChests</UpdateKeys>
+		<UpdateKeys>Nexus:30322, CurseForge:1169558, GitHub:LeFauxMatt/ColorfulChests</UpdateKeys>
 		<RepositoryUrl>https://github.com/LeFauxMatt/ColorfulChests</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>

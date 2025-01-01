@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 
-namespace LeFauxMods.ColorfulChests;
+namespace LeFauxMods.ColorfulChests.Services;
 
-internal sealed class ColorPicker(IModHelper helper, ModConfig config) : ComplexOption
+internal sealed class ColorPicker(IModHelper helper) : ComplexOption
 {
     private const int OffsetX = -192;
 
@@ -27,14 +27,6 @@ internal sealed class ColorPicker(IModHelper helper, ModConfig config) : Complex
 
     private Held currentHeld = Held.None;
     private int currentIndex;
-
-    private enum Held
-    {
-        None,
-        Hue,
-        Saturation,
-        Lightness
-    }
 
     /// <inheritdoc />
     public override int Height => 148;
@@ -62,7 +54,7 @@ internal sealed class ColorPicker(IModHelper helper, ModConfig config) : Complex
         for (var selection = 0; selection < 20; selection++)
         {
             var rect = new Rectangle(position.X + (selection * 36) + OffsetX, position.Y + 4, 28, 28);
-            var color = config.ColorPalette[selection];
+            var color = ModState.Config.ColorPalette[selection];
             if (color is { R: 0, G: 0, B: 0 })
             {
                 color = Utility.GetPrismaticColor(0, 2f);
@@ -90,13 +82,13 @@ internal sealed class ColorPicker(IModHelper helper, ModConfig config) : Complex
 
         if (Bars[this.currentIndex] is not { } bars)
         {
-            bars = new Colors(() => config.ColorPalette[this.currentIndex],
-                value => config.ColorPalette[this.currentIndex] = value);
+            bars = new Colors(() => ModState.Config.ColorPalette[this.currentIndex],
+                value => ModState.Config.ColorPalette[this.currentIndex] = value);
 
             Bars[this.currentIndex] = bars;
         }
 
-        bars.Color = config.ColorPalette[this.currentIndex];
+        bars.Color = ModState.Config.ColorPalette[this.currentIndex];
 
         // Check for release
         if (this.currentHeld is not Held.None && mouseLeft is not (SButtonState.Held or SButtonState.Pressed))
@@ -259,6 +251,14 @@ internal sealed class ColorPicker(IModHelper helper, ModConfig config) : Complex
         {
             IClickableMenu.drawToolTip(spriteBatch, hoverText, null, null);
         }
+    }
+
+    private enum Held
+    {
+        None,
+        Hue,
+        Saturation,
+        Lightness
     }
 
     private sealed class Colors(Func<Color> getColor, Action<Color> setColor)

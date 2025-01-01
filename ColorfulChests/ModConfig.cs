@@ -1,11 +1,13 @@
+using System.Globalization;
+using System.Text;
 using LeFauxMods.Common.Interface;
 using LeFauxMods.Common.Models;
 using Microsoft.Xna.Framework;
 
 namespace LeFauxMods.ColorfulChests;
 
-/// <summary>Represents the mod configuration.</summary>
-internal class ModConfig : IConfigWithLogAmount
+/// <inheritdoc cref="IModConfig{TConfig}" />
+internal sealed class ModConfig : IModConfig<ModConfig>, IConfigWithLogAmount
 {
     /// <summary>Gets or sets the color palette.</summary>
     public Color[] ColorPalette { get; set; } =
@@ -36,13 +38,17 @@ internal class ModConfig : IConfigWithLogAmount
     /// <inheritdoc />
     public LogAmount LogAmount { get; set; }
 
-    /// <summary>
-    ///     Copies the values from this instance to another instance.
-    /// </summary>
-    /// <param name="other">The other config instance.</param>
+    /// <inheritdoc />
     public void CopyTo(ModConfig other)
     {
         this.ColorPalette.CopyTo(other.ColorPalette, 0);
         other.LogAmount = this.LogAmount;
     }
+
+    /// <inheritdoc />
+    public string GetSummary() =>
+        new StringBuilder()
+            .AppendLine(CultureInfo.InvariantCulture,
+                $"{nameof(this.ColorPalette),25}: {string.Join(',', this.ColorPalette.Select(static color => $"({color.R} {color.G} {color.B})").ToList())}")
+            .ToString();
 }
