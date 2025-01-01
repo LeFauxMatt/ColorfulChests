@@ -1,4 +1,4 @@
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using HarmonyLib;
 using LeFauxMods.Common.Utilities;
 using Microsoft.Xna.Framework;
