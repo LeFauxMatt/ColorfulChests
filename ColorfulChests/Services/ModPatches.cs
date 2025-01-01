@@ -1,4 +1,4 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using HarmonyLib;
 using LeFauxMods.Common.Utilities;
 using Microsoft.Xna.Framework;
@@ -21,21 +21,21 @@ internal static class ModPatches
         {
             _ = Harmony.Patch(
                 AccessTools.DeclaredMethod(typeof(DiscreteColorPicker), nameof(DiscreteColorPicker.draw)),
-                transpiler: new HarmonyMethod(typeof(ModEntry), nameof(DiscreteColorPicker_draw_transpiler)));
+                transpiler: new HarmonyMethod(typeof(ModPatches), nameof(DiscreteColorPicker_draw_transpiler)));
 
             _ = Harmony.Patch(
                 AccessTools.DeclaredMethod(
                     typeof(Chest),
                     nameof(Chest.draw),
                     [typeof(SpriteBatch), typeof(int), typeof(int), typeof(float)]),
-                transpiler: new HarmonyMethod(typeof(ModEntry), nameof(Chest_draw_transpiler)));
+                transpiler: new HarmonyMethod(typeof(ModPatches), nameof(Chest_draw_transpiler)));
 
             _ = Harmony.Patch(
                 AccessTools.DeclaredMethod(
                     typeof(Chest),
                     nameof(Chest.draw),
                     [typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(bool)]),
-                transpiler: new HarmonyMethod(typeof(ModEntry), nameof(Chest_draw_transpiler)));
+                transpiler: new HarmonyMethod(typeof(ModPatches), nameof(Chest_draw_transpiler)));
         }
         catch
         {
@@ -51,7 +51,7 @@ internal static class ModPatches
                 matcher.Advance(2)
                     .InsertAndAdvance(
                         new CodeInstruction(OpCodes.Ldarg_0),
-                        CodeInstruction.Call(typeof(ModEntry), nameof(GetNewColor)));
+                        CodeInstruction.Call(typeof(ModPatches), nameof(GetNewColor)));
             })
             .InstructionEnumeration();
 
@@ -60,12 +60,12 @@ internal static class ModPatches
         new CodeMatcher(instructions)
             .MatchEndForward(
                 new CodeMatch(
-                    instruction => instruction.Calls(AccessTools.DeclaredMethod(typeof(DiscreteColorPicker),
+                    static instruction => instruction.Calls(AccessTools.DeclaredMethod(typeof(DiscreteColorPicker),
                         nameof(DiscreteColorPicker.getColorFromSelection)))))
             .RemoveInstruction()
             .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Ldarg_0),
-                CodeInstruction.Call(typeof(ModEntry), nameof(GetColorFromSelection)))
+                CodeInstruction.Call(typeof(ModPatches), nameof(GetColorFromSelection)))
             .InstructionEnumeration();
 
     private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker)

@@ -49,6 +49,6 @@ internal sealed class ModConfig : IModConfig<ModConfig>, IConfigWithLogAmount
     public string GetSummary() =>
         new StringBuilder()
             .AppendLine(CultureInfo.InvariantCulture,
-                $"{nameof(this.ColorPalette),25}: {string.Join(',', this.ColorPalette.Select(static color => color.ToString()))}")
+                $"{nameof(this.ColorPalette),25}: {string.Join(',', this.ColorPalette.Select(static color => $"({color.R} {color.G} {color.B})").ToList())}")
             .ToString();
 }

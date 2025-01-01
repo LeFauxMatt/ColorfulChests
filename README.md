@@ -7,6 +7,7 @@ Stardew Valley mod which swaps out the chest color picker palette.
 - [Colorful Chests](#colorful-chests)
   - [Contents](#contents)
   - [Configurations](#configurations)
+  - [Features](#features)
   - [Translations](#translations)
 
 ## Configurations
@@ -14,22 +15,18 @@ Stardew Valley mod which swaps out the chest color picker palette.
 For ease of use, it is recommended to set config options
 from [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
 
-<table>
-<thead>
-<tr>
-<th>Config Option</th>
-<th>Description</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ColorPalette</td>
-<td>Overrides for the color chest color picker.</td>
-<td>List of Colors</td>
-</tr>
-</tbody>
-</table>
+![Config Menu](docs/config-menu.png)
+
+## Features
+
+Assign custom colors in the config menu.
+![Custom Colors](docs/custom-colors.png)
+
+You can assign Prismatic as one of the colors.
+![Prismatic Color](docs/prismatic-color.png)
+
+Your custom colors will be available to choose in the color picker.
+![Color Picker](docs/color-picker.png)
 
 ## Translations
 
