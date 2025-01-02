@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using LeFauxMods.Common.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,9 +41,7 @@ internal sealed class ColorPicker(IModHelper helper) : ComplexOption
     public override void Draw(SpriteBatch spriteBatch, Vector2 pos)
     {
         var position = pos.ToPoint();
-        var (mouseX, mouseY) = Utility
-            .ModifyCoordinatesForUIScale(helper.Input.GetCursorPosition().GetScaledScreenPixels())
-            .ToPoint();
+        var (mouseX, mouseY) = helper.Input.GetCursorPosition().GetScaledScreenPixels().ToPoint();
 
         var mouseLeft = helper.Input.GetState(SButton.MouseLeft);
         var mouseRight = helper.Input.GetState(SButton.MouseRight);
