@@ -36,6 +36,10 @@ internal static class ModPatches
                     nameof(Chest.draw),
                     [typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(bool)]),
                 transpiler: new HarmonyMethod(typeof(ModPatches), nameof(Chest_draw_transpiler)));
+
+            _ = Harmony.Patch(
+                AccessTools.Method(typeof(ItemGrabMenu), nameof(ItemGrabMenu.CanHaveColorPicker)),
+                postfix: new HarmonyMethod(typeof(ModPatches), nameof(ItemGrabMenu_CanHaveColorPicker_postfix)));
         }
         catch
         {
@@ -43,10 +47,22 @@ internal static class ModPatches
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Harmony")]
+    private static void ItemGrabMenu_CanHaveColorPicker_postfix(ItemGrabMenu __instance, ref bool __result)
+    {
+        if (!__result &&
+            __instance.sourceItem is Chest { playerChest.Value: true } chest &&
+            Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) &&
+            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) == true)
+        {
+            __result = true;
+        }
+    }
+
     private static IEnumerable<CodeInstruction> Chest_draw_transpiler(IEnumerable<CodeInstruction> instructions) =>
         new CodeMatcher(instructions)
             .MatchEndForward(new CodeMatch(CodeInstruction.LoadField(typeof(Chest), nameof(Chest.playerChoiceColor))))
-            .Repeat(matcher =>
+            .Repeat(static matcher =>
             {
                 matcher.Advance(2)
                     .InsertAndAdvance(
@@ -70,7 +86,9 @@ internal static class ModPatches
 
     private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker)
     {
-        if (colorPicker.itemToDrawColored is not Chest chest)
+        if (colorPicker.itemToDrawColored is not Chest chest ||
+            !Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) ||
+            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) != true)
         {
             return DiscreteColorPicker.getColorFromSelection(selection);
         }
@@ -97,6 +115,12 @@ internal static class ModPatches
 
     private static Color GetNewColor(Color oldColor, Chest chest)
     {
+        if (!Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) ||
+            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) != true)
+        {
+            return oldColor;
+        }
+
         var selection = Math.Max(0, DiscreteColorPicker.getSelectionFromColor(oldColor));
         Color[]? palette = null;
         foreach (var handler in ModState.Handlers)

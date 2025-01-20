@@ -35,7 +35,7 @@ Your custom colors will be available to choose in the color picker.
 |            |         Carry Chests          |
 | :--------- | :---------------------------: |
 | Chinese    | [❌️](ColorfulChests/i18n/zh.json) |
-| French     | [❌️](ColorfulChests/i18n/fr.json) |
+| French     | [❔](ColorfulChests/i18n/fr.json) |
 | German     | [❌️](ColorfulChests/i18n/de.json) |
 | Hungarian  | [❌️](ColorfulChests/i18n/hu.json) |
 | Italian    | [❌️](ColorfulChests/i18n/it.json) |

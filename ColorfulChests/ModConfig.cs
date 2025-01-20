@@ -34,6 +34,14 @@ internal sealed class ModConfig : IModConfig<ModConfig>, IConfigWithLogAmount
         new(254, 254, 254)
     ];
 
+    /// <summary>Gets or sets the list of ids that this mod is enabled for.</summary>
+    public HashSet<string> EnabledIds { get; set; } = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "130", // Chest
+        "232", // Stone Chest
+        "BigChest",
+        "BigStoneChest"
+    };
 
     /// <inheritdoc />
     public LogAmount LogAmount { get; set; }
@@ -42,6 +50,8 @@ internal sealed class ModConfig : IModConfig<ModConfig>, IConfigWithLogAmount
     public void CopyTo(ModConfig other)
     {
         this.ColorPalette.CopyTo(other.ColorPalette, 0);
+        other.EnabledIds.Clear();
+        other.EnabledIds.UnionWith(this.EnabledIds);
         other.LogAmount = this.LogAmount;
     }
 
@@ -50,5 +60,7 @@ internal sealed class ModConfig : IModConfig<ModConfig>, IConfigWithLogAmount
         new StringBuilder()
             .AppendLine(CultureInfo.InvariantCulture,
                 $"{nameof(this.ColorPalette),25}: {string.Join(',', this.ColorPalette.Select(static color => $"({color.R} {color.G} {color.B})").ToList())}")
+            .AppendLine(CultureInfo.InvariantCulture,
+                $"{nameof(this.EnabledIds),25}: {string.Join(',', this.EnabledIds)}")
             .ToString();
 }
