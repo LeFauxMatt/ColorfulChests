@@ -42,6 +42,6 @@ Your custom colors will be available to choose in the color picker.
 | Japanese   | [❌️](ColorfulChests/i18n/ja.json) |
 | Korean     | [❌️](ColorfulChests/i18n/ko.json) |
 | Portuguese | [❌️](ColorfulChests/i18n/pt.json) |
-| Russian    | [❌️](ColorfulChests/i18n/ru.json) |
+| Russian    | [❔](ColorfulChests/i18n/ru.json) |
 | Spanish    | [❌️](ColorfulChests/i18n/es.json) |
 | Turkish    | [❌️](ColorfulChests/i18n/tr.json) |
