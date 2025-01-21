@@ -12,7 +12,7 @@ internal sealed class ColorPickerOption : ComplexOption
 {
     private readonly List<ClickableTextureComponent> components = [];
     private readonly IModHelper helper;
-    private readonly List<Chest> samples = [];
+    private readonly List<Chest> chests = [];
     private readonly Selector[] selectors = new Selector[20];
     private Held currentHeld = Held.None;
     private int height;
@@ -49,12 +49,12 @@ internal sealed class ColorPickerOption : ComplexOption
             new Rectangle(16, 0, 16, 16),
             Game1.pixelZoom));
 
-        this.samples.Add(new Chest(true, new Vector2(this.samples.Count * Game1.tileSize * 1.5f, 0)));
-        this.samples.Add(new Chest(true, new Vector2(this.samples.Count * Game1.tileSize * 1.5f, 0), "232"));
-        this.samples.Add(new Chest(true, new Vector2(this.samples.Count * Game1.tileSize * 1.5f, 0), "BigChest"));
-        this.samples.Add(new Chest(true, new Vector2(this.samples.Count * Game1.tileSize * 1.5f, 0), "BigStoneChest"));
+        foreach (var itemId in ModState.ConfigHelper.Default.EnabledIds)
+        {
+            this.chests.Add(new Chest(true, new Vector2(this.chests.Count * Game1.tileSize * 1.5f, 0), itemId));
+        }
 
-        foreach (var chest in this.samples)
+        foreach (var chest in this.chests)
         {
             chest.resetLidFrame();
         }
@@ -334,7 +334,7 @@ internal sealed class ColorPickerOption : ComplexOption
             pos,
             SpriteText.color_Gray);
 
-        foreach (var chest in this.samples)
+        foreach (var chest in this.chests)
         {
             if (ModState.ConfigHelper.Temp.EnabledIds.Contains(chest.ItemId))
             {

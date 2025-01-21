@@ -31,13 +31,7 @@ internal sealed class ConfigMenu
 
     public void SetupMenu()
     {
-        this.gmcm.Register(this.Reset, ConfigHelper.Save);
+        this.gmcm.Register(ConfigHelper.Reset, ConfigHelper.Save);
         this.gmcm.AddComplexOption(new ColorPickerOption(this.helper, Config.ColorPalette));
-    }
-
-    private void Reset()
-    {
-        ConfigHelper.Reset();
-        this.SetupMenu();
     }
 }

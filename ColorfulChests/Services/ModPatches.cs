@@ -1,5 +1,6 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using HarmonyLib;
+using LeFauxMods.ColorfulChests.Utilities;
 using LeFauxMods.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -84,61 +85,15 @@ internal static class ModPatches
                 CodeInstruction.Call(typeof(ModPatches), nameof(GetColorFromSelection)))
             .InstructionEnumeration();
 
-    private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker)
-    {
-        if (colorPicker.itemToDrawColored is not Chest chest ||
-            !Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) ||
-            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) != true)
-        {
-            return DiscreteColorPicker.getColorFromSelection(selection);
-        }
+    private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker) =>
+        colorPicker.itemToDrawColored.GetColorFromSelection(selection);
 
-        Color[]? palette = null;
-        foreach (var handler in ModState.Handlers)
-        {
-            if (handler.Invoke(chest, out palette))
-            {
-                break;
-            }
-        }
-
-        palette ??= ModState.Config.ColorPalette;
-        if (selection <= 0 || selection > palette.Length)
-        {
-            return DiscreteColorPicker.getColorFromSelection(selection);
-        }
-
-        return palette[selection - 1] is { R: 0, G: 0, B: 0 }
-            ? Utility.GetPrismaticColor(0, 2f)
-            : palette[selection - 1];
-    }
-
+    [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter", Justification = "Harmony")]
     private static Color GetNewColor(Color oldColor, Chest chest)
     {
-        if (!Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) ||
-            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) != true)
-        {
-            return oldColor;
-        }
-
         var selection = Math.Max(0, DiscreteColorPicker.getSelectionFromColor(oldColor));
-        Color[]? palette = null;
-        foreach (var handler in ModState.Handlers)
-        {
-            if (handler.Invoke(chest, out palette))
-            {
-                break;
-            }
-        }
-
-        palette ??= ModState.Config.ColorPalette;
-        if (selection <= 0 || selection > palette.Length)
-        {
-            return oldColor;
-        }
-
-        return palette[selection - 1] is { R: 0, G: 0, B: 0 }
-            ? Utility.GetPrismaticColor(0, 2f)
-            : palette[selection - 1];
+        return selection is <= 0 or > 20
+            ? oldColor
+            : chest.GetColorFromSelection(selection);
     }
 }
