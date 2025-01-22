@@ -1,5 +1,8 @@
 using LeFauxMods.ColorfulChests.Services;
+using LeFauxMods.ColorfulChests.Utilities;
 using LeFauxMods.Common.Integrations.ColorfulChests;
+using Microsoft.Xna.Framework;
+using StardewValley.Objects;
 
 namespace LeFauxMods.ColorfulChests;
 
@@ -11,4 +14,7 @@ public sealed class ModApi : IColorfulChestsApi
 
     /// <inheritdoc />
     public void RemoveHandler(PaletteHandler handler) => ModState.Handlers.Remove(handler);
+
+    /// <inheritdoc />
+    public Color GetColorFromSelection(Chest chest, int selection) => chest.GetColorFromSelection(selection);
 }

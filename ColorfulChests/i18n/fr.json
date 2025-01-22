@@ -1,9 +1,11 @@
 {
   "config-option.color-palette.name": "Palette de couleur",
   "config-option.color-palette.description": "La couleur de palette par défaut pour le sélectionneur de couleur.",
-  "config-option.hue.value": "Teinte : {{value}}",
-  "config-option.saturation.value": "Saturation : {{value}}",
-  "config-option.lightness.value": "Luminosité : {{value}}",
+  "config-option.enable-palette.name": "Enable Palette",
+  "config-option.enable-palette.description": "Enable the color palette for this chest type.",
+  "config-option.hue.name": "Teinte",
+  "config-option.saturation.name": "Saturation",
+  "config-option.lightness.name": "Luminosité",
   "config-option.copy.tooltip": "Copier",
-  "config-option.paste.tooltip":  "Coller"
+  "config-option.paste.tooltip": "Coller"
 }

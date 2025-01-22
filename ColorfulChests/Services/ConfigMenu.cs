@@ -1,4 +1,4 @@
-﻿using LeFauxMods.Common.Integrations.GenericModConfigMenu;
+using LeFauxMods.Common.Integrations.GenericModConfigMenu;
 using LeFauxMods.Common.Services;
 
 namespace LeFauxMods.ColorfulChests.Services;
@@ -29,9 +29,9 @@ internal sealed class ConfigMenu
 
     private static ConfigHelper<ModConfig> ConfigHelper => ModState.ConfigHelper;
 
-    private void SetupMenu()
+    public void SetupMenu()
     {
         this.gmcm.Register(ConfigHelper.Reset, ConfigHelper.Save);
-        this.gmcm.AddComplexOption(new ColorPicker(this.helper));
+        this.gmcm.AddComplexOption(new ColorPickerOption(this.helper, Config.ColorPalette));
     }
 }

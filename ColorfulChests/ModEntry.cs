@@ -1,6 +1,5 @@
 using LeFauxMods.ColorfulChests.Services;
 using LeFauxMods.Common.Utilities;
-using StardewModdingAPI.Events;
 
 namespace LeFauxMods.ColorfulChests;
 
@@ -12,17 +11,11 @@ public class ModEntry : Mod
     {
         // Init
         I18n.Init(helper.Translation);
-        ModState.Init(helper);
+        ModState.Init(helper, this.ModManifest);
         Log.Init(this.Monitor, ModState.Config);
         ModPatches.Apply();
-
-        // Events
-        helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
     }
 
     /// <inheritdoc />
     public override object GetApi(IModInfo mod) => new ModApi();
-
-    private void OnGameLaunched(object? sender, GameLaunchedEventArgs e) =>
-        _ = new ConfigMenu(this.Helper, this.ModManifest);
 }

@@ -1,5 +1,6 @@
-﻿using System.Reflection.Emit;
+using System.Reflection.Emit;
 using HarmonyLib;
+using LeFauxMods.ColorfulChests.Utilities;
 using LeFauxMods.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,10 @@ internal static class ModPatches
                     nameof(Chest.draw),
                     [typeof(SpriteBatch), typeof(int), typeof(int), typeof(float), typeof(bool)]),
                 transpiler: new HarmonyMethod(typeof(ModPatches), nameof(Chest_draw_transpiler)));
+
+            _ = Harmony.Patch(
+                AccessTools.Method(typeof(ItemGrabMenu), nameof(ItemGrabMenu.CanHaveColorPicker)),
+                postfix: new HarmonyMethod(typeof(ModPatches), nameof(ItemGrabMenu_CanHaveColorPicker_postfix)));
         }
         catch
         {
@@ -43,10 +48,22 @@ internal static class ModPatches
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Harmony")]
+    private static void ItemGrabMenu_CanHaveColorPicker_postfix(ItemGrabMenu __instance, ref bool __result)
+    {
+        if (!__result &&
+            __instance.sourceItem is Chest { playerChest.Value: true } chest &&
+            Game1.bigCraftableData.TryGetValue(chest.ItemId, out var bigCraftableData) &&
+            bigCraftableData.CustomFields?.GetBool(Constants.ModEnabled) == true)
+        {
+            __result = true;
+        }
+    }
+
     private static IEnumerable<CodeInstruction> Chest_draw_transpiler(IEnumerable<CodeInstruction> instructions) =>
         new CodeMatcher(instructions)
             .MatchEndForward(new CodeMatch(CodeInstruction.LoadField(typeof(Chest), nameof(Chest.playerChoiceColor))))
-            .Repeat(matcher =>
+            .Repeat(static matcher =>
             {
                 matcher.Advance(2)
                     .InsertAndAdvance(
@@ -68,53 +85,15 @@ internal static class ModPatches
                 CodeInstruction.Call(typeof(ModPatches), nameof(GetColorFromSelection)))
             .InstructionEnumeration();
 
-    private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker)
-    {
-        if (colorPicker.itemToDrawColored is not Chest chest)
-        {
-            return DiscreteColorPicker.getColorFromSelection(selection);
-        }
+    private static Color GetColorFromSelection(int selection, DiscreteColorPicker colorPicker) =>
+        colorPicker.itemToDrawColored.GetColorFromSelection(selection);
 
-        Color[]? palette = null;
-        foreach (var handler in ModState.Handlers)
-        {
-            if (handler.Invoke(chest, out palette))
-            {
-                break;
-            }
-        }
-
-        palette ??= ModState.Config.ColorPalette;
-        if (selection <= 0 || selection > palette.Length)
-        {
-            return DiscreteColorPicker.getColorFromSelection(selection);
-        }
-
-        return palette[selection - 1] is { R: 0, G: 0, B: 0 }
-            ? Utility.GetPrismaticColor(0, 2f)
-            : palette[selection - 1];
-    }
-
+    [SuppressMessage("ReSharper", "SuggestBaseTypeForParameter", Justification = "Harmony")]
     private static Color GetNewColor(Color oldColor, Chest chest)
     {
         var selection = Math.Max(0, DiscreteColorPicker.getSelectionFromColor(oldColor));
-        Color[]? palette = null;
-        foreach (var handler in ModState.Handlers)
-        {
-            if (handler.Invoke(chest, out palette))
-            {
-                break;
-            }
-        }
-
-        palette ??= ModState.Config.ColorPalette;
-        if (selection <= 0 || selection > palette.Length)
-        {
-            return oldColor;
-        }
-
-        return palette[selection - 1] is { R: 0, G: 0, B: 0 }
-            ? Utility.GetPrismaticColor(0, 2f)
-            : palette[selection - 1];
+        return selection is <= 0 or > 20
+            ? oldColor
+            : chest.GetColorFromSelection(selection);
     }
 }
