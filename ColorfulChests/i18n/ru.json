@@ -1,8 +1,8 @@
 {
   "config-option.color-palette.name": "Цветовая палитра",
   "config-option.color-palette.description": "Палитра цветов по умолчанию для выбора цвета.",
-  "config-option.enable-palette.name": "Enable Palette",
-  "config-option.enable-palette.description": "Enable the color palette for this chest type.",
+  "config-option.enable-palette.name": "Включить палитру",
+  "config-option.enable-palette.description": "Включить палитру цветов для этого типа сундуков.",
   "config-option.hue.name": "Оттенок",
   "config-option.saturation.name": "Насыщенность",
   "config-option.lightness.name": "Яркость",
